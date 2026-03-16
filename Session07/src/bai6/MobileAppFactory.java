@@ -1,4 +1,4 @@
-package bai5;
+package bai6;
 
 public class MobileAppFactory implements SalesChannelFactory {
 

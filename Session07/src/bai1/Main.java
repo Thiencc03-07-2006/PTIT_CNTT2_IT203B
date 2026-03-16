@@ -22,7 +22,7 @@ public class Main {
         OrderCalculator calculator = new OrderCalculator();
         System.out.println("Tính tổng tiền");
         double total = calculator.calculateTotal(order);
-        System.out.println("Tổng tiền: " + (long) total);
+        System.out.println("Tổng tiền: " +  total);
         OrderRepository repository = new OrderRepository();
         System.out.println("Lưu đơn hàng");
         repository.save(order);

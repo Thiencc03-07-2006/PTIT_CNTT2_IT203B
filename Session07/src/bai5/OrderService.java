@@ -1,23 +1,36 @@
 package bai5;
 
+import java.util.*;
+
 public class OrderService {
 
-    private SalesChannelFactory factory;
+    private OrderRepository repo;
+    private NotificationService notify;
 
-    public OrderService(SalesChannelFactory factory) {
-        this.factory = factory;
+    public OrderService(OrderRepository repo, NotificationService notify) {
+        this.repo = repo;
+        this.notify = notify;
     }
 
-    public void processOrder(double amount) {
+    public void createOrder(Order order,
+                            DiscountStrategy discount,
+                            PaymentMethod payment) {
 
-        DiscountStrategy discount = factory.createDiscount();
-        PaymentMethod payment = factory.createPayment();
-        NotificationService notify = factory.createNotification();
+        double total = order.getTotal();
 
-        double finalAmount = discount.apply(amount);
+        double afterDiscount = discount.apply(total);
 
-        payment.pay(finalAmount);
+        payment.pay(afterDiscount);
 
-        notify.notifyCustomer("Đơn hàng thành công");
+        order.setFinalAmount(afterDiscount);
+
+        repo.save(order);
+
+        notify.send("Đơn hàng " + order.getId() + " đã được tạo",
+                order.getCustomer().getEmail());
+    }
+
+    public List<Order> getOrders() {
+        return repo.findAll();
     }
 }
