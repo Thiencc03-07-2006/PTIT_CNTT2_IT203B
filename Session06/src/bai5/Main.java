@@ -3,7 +3,7 @@ package bai5;
 import java.util.*;
 
 public class Main {
-
+    //HỆ THỐNG ĐẶT VÉ ONLINE CÓ BỘ ĐẾM THỜI GIAN
     public static void main(String[] args) {
         TicketPool roomA = new TicketPool("A", 10);
         TicketPool roomB = new TicketPool("B", 8);
