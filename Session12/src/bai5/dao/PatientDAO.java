@@ -3,10 +3,7 @@ package bai5.dao;
 import bai5.model.Patient;
 import bai5.util.DBConnection;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class PatientDAO {
     public void getAllPatients() {
@@ -67,7 +64,7 @@ public class PatientDAO {
              CallableStatement cs = conn.prepareCall(sql)) {
 
             cs.setInt(1, id);
-            cs.registerOutParameter(2, java.sql.Types.DOUBLE);
+            cs.registerOutParameter(2, Types.DECIMAL);
 
             cs.execute();
             double fee = cs.getDouble(2);

@@ -3,6 +3,7 @@ package bai3;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Types;
 
 /*
 Tại sao JDBC bắt buộc phải gọi registerOutParameter() trước khi thực thi? Nếu tham số đầu ra là kiểu DECIMAL trong SQL thì trong Java phải đăng ký bằng hằng số nào trong lớp Types?
@@ -23,7 +24,7 @@ public class OUTParameter {
 
         try (CallableStatement cstmt = conn.prepareCall(sql)) {
             cstmt.setInt(1, surgeryId);
-            cstmt.registerOutParameter(2, java.sql.Types.DECIMAL);
+            cstmt.registerOutParameter(2, Types.DECIMAL);
             cstmt.execute();
             double cost = cstmt.getDouble(2);
             System.out.println("--- THÔNG TIN CHI PHÍ ---");
