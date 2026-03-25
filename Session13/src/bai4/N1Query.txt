@@ -1,0 +1,21 @@
+Phân tích I/O
+
+Input: Không có (Lấy toàn bộ bệnh nhân nội trú trong ngày).
+Output: List<BenhNhanDTO>
+Mỗi BenhNhanDTO chứa: id, tenBenhNhan, và List<DichVu> dsDichVu.
+
+Đề xuất 2 giải pháp JDBC
+
+A: Left Join
+Bắn 1 Query duy nhất lên DB. Server trả về một tập kết quả (ResultSet) khổng lồ chứa dòng lặp lại thông tin bệnh nhân cho mỗi dịch vụ. Java sẽ dùng một Map để gộp các dòng trùng tên bệnh nhân lại thành một Object.
+B: In-Clause
+Bước 1: Query lấy danh sách 500 bệnh nhân.
+Bước 2: Lấy toàn bộ ID của 500 người đó, bắn 1 Query thứ hai sử dụng toán tử IN (ví dụ: SELECT * FROM DichVu WHERE maBenhNhan IN (1, 2, ... 500)) để lấy tất cả dịch vụ một lần.
+Bước 3: Map dịch vụ vào đúng bệnh nhân trên RAM của Java.
+
+Tiêu chí                Giải pháp A (Left Join)                                             Giải pháp B (2-Step In-Clause)
+Số lượng Query          1 Query (Tối ưu nhất cho Network)	                                2 Query (Rất tốt)
+Dữ liệu dư thừa	        Cao (Thông tin bệnh nhân bị lặp lại nhiều lần trong ResultSet)	    Thấp (Dữ liệu sạch, không lặp)
+Độ phức tạp Java	    Trung bình (Cần dùng Map để group dữ liệu)	                        Cao hơn (Cần xử lý logic khớp nối 2 danh sách)
+Xử lý Bẫy 2             Tự động giữ lại bệnh nhân nhờ LEFT JOIN                             Dễ dàng kiểm tra danh sách trống
+
